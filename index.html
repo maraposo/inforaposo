@@ -135,42 +135,23 @@
         });
 
         // Inicializa o MercadoPago com sua chave pública
-        const mp = new MercadoPago('APP_USR-67b0ac2e-fda1-4949-8979-61ca6a20ad30', {
+        const mp = new MercadoPago('APP_USR-67b0ac2e-fda1-4949-8979-61ca6a20ad30', { // SUBSTITUA 'SUA_PUBLIC_KEY' PELA SUA CHAVE PÚBLICA
             locale: 'pt-BR' // Defina o idioma
         });
 
         // Criação da preferência
-        fetch('https://api.mercadopago.com/checkout/preferences', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': 'Bearer APP_USR-7992115221432535-102516-d97ecba141c3ac63fb9ad7f1c275e448-554985207' // Acesse seu token de acesso
+        const preferenceId = '7882135221432553'; // ID da preferência fornecido
+
+        const checkout = mp.checkout({
+            preference: {
+                id: preferenceId // Use o ID fornecido
             },
-            body: JSON.stringify({
-                items: [
-                    {
-                        title: 'Produto Exemplo',
-                        unit_price: 100.00,
-                        quantity: 1
-                    }
-                ]
-            })
-        })
-        .then(response => response.json())
-        .then(data => {
-            const checkout = mp.checkout({
-                preference: {
-                    id: data.id // 7992115221432535
-                },
-                render: {
-                    container: '.botao-pagar', // Classe do botão de pagamento
-                    label: 'Pagar com MercadoPago' // Texto do botão
-                }
-            });
-        })
-        .catch(error => {
-            console.error('Erro ao criar a preferência:', error);
+            render: {
+                container: '.botao-pagar', // Classe do botão de pagamento
+                label: 'Pagar com MercadoPago' // Texto do botão
+            }
         });
+
     </script>
 </body>
 </html>
