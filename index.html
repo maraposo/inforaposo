@@ -1,4 +1,4 @@
-<!DOCTYPE html> 
+<!DOCTYPE html>
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
@@ -6,6 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>Loja Inforaposo</title>
     <link rel="stylesheet" href="styles.css">
+    <script src="https://sdk.mercadopago.com/js/v2"></script>
 </head>
 <body>
     <header>
@@ -32,7 +33,6 @@
     <main>
         <section class="departamentos">
             <h2>Departamentos</h2>
-
             <div class="grid-container">
                 <div class="categoria" data-nome="Processador" data-preco="250">
                     <img src="img/processador.jpg" alt="Processador">
@@ -49,20 +49,18 @@
                     <h3>Placas-mãe</h3>
                     <button class="botao-adicionar">Adicionar ao Carrinho</button>
                 </div>
-                <!-- Adicione mais categorias conforme necessário -->
             </div>
         </section>
 
-       <!-- Botão de pagamento único com opções -->
-       <section class="pagamento">
-        <h2>Finalizar Compra</h2>
-        <button class="botao-pagar" id="botaoPagar">Pagar com MercadoPago</button>
-        <div class="opcoes-pagamento">
-            <a href="#" id="boleto">Boleto</a>
-            <a href="#" id="pix">Pix</a>
-            <a href="#" id="cartoes">Cartões</a>
-            <a href="#" id="mercadoPago">MercadoPago</a>
-        </div>
+        <section class="pagamento">
+            <h2>Finalizar Compra</h2>
+            <button class="botao-pagar" id="botaoPagar">Pagar</button>
+            <div class="opcoes-pagamento">
+                <a href="#" id="boleto">Boleto</a>
+                <a href="#" id="pix">Pix</a>
+                <a href="#" id="cartoes">Cartões</a>
+                <a href="#" id="mercadoPago">MercadoPago</a>
+            </div>
             <div class="carrinho-info">
                 <h3>Itens no Carrinho:</h3>
                 <ul class="lista-carrinho"></ul>
@@ -87,13 +85,7 @@
         </div>
     </footer>
 
-    <!-- Script de funcionalidades e integração com o MercadoPago -->
-    <script src="https://sdk.mercadopago.com/js/v2"></script>
     <script>
-        const mp = new MercadoPago('APP_USR-67b0ac2e-fda1-4949-8979-61ca6a20ad30', {
-            locale: 'pt-BR' // Defina o idioma
-        });
-
         const carrinho = [];
         const totalElement = document.querySelector('.total');
         const listaCarrinho = document.querySelector('.lista-carrinho');
@@ -135,16 +127,49 @@
                 alert('Por favor, digite um CEP válido.');
             }
         });
+        
+        // Script para mostrar/esconder as opções de pagamento no botão de pagamento único
+        document.querySelector('.botao-pagar').addEventListener('click', () => {
+            const opcoesPagamento = document.querySelector('.opcoes-pagamento');
+            opcoesPagamento.classList.toggle('mostrar');
+        });
 
-        // Configuração do botão de pagamento
-        mp.checkout({
-            preference: {
-                id: '7992115221432535' // Substitua pelo ID da preferência
+        // Inicializa o MercadoPago com sua chave pública
+        const mp = new MercadoPago('SUA_PUBLIC_KEY', {
+            locale: 'pt-BR' // Defina o idioma
+        });
+
+        // Criação da preferência
+        fetch('https://api.mercadopago.com/checkout/preferences', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer SUA_ACCESS_TOKEN' // Acesse seu token de acesso
             },
-            render: {
-                container: '.botao-pagar', // Container do botão de pagamento
-                label: 'Pagar com MercadoPago' // Texto do botão
-            }
+            body: JSON.stringify({
+                items: [
+                    {
+                        title: 'Produto Exemplo',
+                        unit_price: 100.00,
+                        quantity: 1
+                    }
+                ]
+            })
+        })
+        .then(response => response.json())
+        .then(data => {
+            const checkout = mp.checkout({
+                preference: {
+                    id: data.id // Use o ID gerado da preferência
+                },
+                render: {
+                    container: '.botao-pagar', // Classe do botão de pagamento
+                    label: 'Pagar com MercadoPago' // Texto do botão
+                }
+            });
+        })
+        .catch(error => {
+            console.error('Erro ao criar a preferência:', error);
         });
     </script>
 </body>
