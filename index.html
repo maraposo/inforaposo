@@ -135,7 +135,7 @@
         });
 
         // Inicializa o MercadoPago com sua chave pública
-        const mp = new MercadoPago('SUA_PUBLIC_KEY', {
+        const mp = new MercadoPago('APP_USR-67b0ac2e-fda1-4949-8979-61ca6a20ad30', {
             locale: 'pt-BR' // Defina o idioma
         });
 
@@ -144,7 +144,7 @@
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
-                'Authorization': 'Bearer SUA_ACCESS_TOKEN' // Acesse seu token de acesso
+                'Authorization': 'APP_USR-7992115221432535-102516-d97ecba141c3ac63fb9ad7f1c275e448-554985207' // Acesse seu token de acesso
             },
             body: JSON.stringify({
                 items: [
@@ -160,7 +160,7 @@
         .then(data => {
             const checkout = mp.checkout({
                 preference: {
-                    id: data.id // Use o ID gerado da preferência
+                    id: data.id // 7992115221432535
                 },
                 render: {
                     container: '.botao-pagar', // Classe do botão de pagamento
