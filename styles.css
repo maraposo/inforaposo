@@ -110,6 +110,22 @@ main {
     margin-top: 20px; /* Espaçamento entre as categorias e o botão */
 }
 
+/* Estilo do SDK do Mercado Pago */
+.botao-pagar-sdk {
+    background-color: #0055ff; /* Cor do botão Mercado Pago */
+    color: white;
+    padding: 10px 15px;
+    border-radius: 5px;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+    margin-top: 15px;
+}
+
+.botao-pagar-sdk:hover {
+    background-color: #0044cc; /* Cor ao passar o mouse */
+}
+
 /* Estilo do rodapé */
 footer {
     background-color: #333;
