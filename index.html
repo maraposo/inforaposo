@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Loja Inforaposo</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <!-- Banner com o nome Inforaposo -->
+        <div class="banner">
+            <h1>Inforaposo</h1>
+        </div>
+
+        <!-- Navegação -->
+        <nav>
+            <ul>
+                <li><a href="#">Início</a></li>
+                <li><a href="#">Categorias</a></li>
+                <li><a href="#">Contato</a></li>
+                <li class="carrinho">
+                    <a href="#" title="Carrinho de Compras">
+                        <img src="https://img.icons8.com/ios/50/ffffff/shopping-cart.png" alt="Carrinho de Compras"/>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <section class="departamentos">
+            <h2>Departamentos</h2>
+
+            <div class="grid-container">
+                <div class="categoria" data-nome="Processador" data-preco="250">
+                    <img src="img/processador.jpg" alt="Processador">
+                    <h3>Processadores</h3>
+                    <button class="botao-adicionar">Adicionar ao Carrinho</button>
+                </div>
+                <div class="categoria" data-nome="Memória RAM" data-preco="150">
+                    <img src="img/memoria.jpg" alt="Memória RAM">
+                    <h3>Memória RAM</h3>
+                    <button class="botao-adicionar">Adicionar ao Carrinho</button>
+                </div>
+                <div class="categoria" data-nome="Placas-mãe" data-preco="350">
+                    <img src="img/placa-mae.jpg" alt="Placa-mãe">
+                    <h3>Placas-mãe</h3>
+                    <button class="botao-adicionar">Adicionar ao Carrinho</button>
+                </div>
+                <!-- Adicione mais categorias conforme necessário -->
+            </div>
+        </section>
+
+        <!-- Botão de pagamento único com opções -->
+        <section class="pagamento">
+            <h2>Finalizar Compra</h2>
+            <button class="botao-pagar">Pagar</button>
+            <div class="opcoes-pagamento">
+                <a href="#">Boleto</a>
+                <a href="#">Pix</a>
+                <a href="#">Cartões</a>
+                <a href="#">MercadoPago</a>
+            </div>
+            <div class="carrinho-info">
+                <h3>Itens no Carrinho:</h3>
+                <ul class="lista-carrinho"></ul>
+                <p><strong>Total: R$<span class="total">0.00</span></strong></p>
+            </div>
+            <div class="simulador-frete">
+                <h3>Simulador de Frete:</h3>
+                <input type="text" id="cep" placeholder="Digite seu CEP">
+                <button id="calcular-frete">Calcular Frete</button>
+                <p class="frete-info"></p>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>© 2024 Inforaposo. Todos os direitos reservados.</p>
+        <p>Siga-nos nas redes sociais:</p>
+        <div class="redes-sociais">
+            <a href="https://facebook.com" target="_blank">Facebook</a> |
+            <a href="https://instagram.com" target="_blank">Instagram</a> |
+            <a href="https://twitter.com" target="_blank">Twitter</a>
+        </div>
+    </footer>
+
+    <script>
+        const carrinho = [];
+        const totalElement = document.querySelector('.total');
+        const listaCarrinho = document.querySelector('.lista-carrinho');
+
+        // Função para adicionar produtos ao carrinho
+        document.querySelectorAll('.botao-adicionar').forEach(button => {
+            button.addEventListener('click', () => {
+                const categoria = button.parentElement;
+                const nome = categoria.getAttribute('data-nome');
+                const preco = parseFloat(categoria.getAttribute('data-preco'));
+
+                carrinho.push({ nome, preco });
+                atualizarCarrinho();
+            });
+        });
+
+        // Função para atualizar a lista do carrinho e o total
+        function atualizarCarrinho() {
+            listaCarrinho.innerHTML = '';
+            let total = 0;
+
+            carrinho.forEach(item => {
+                const li = document.createElement('li');
+                li.textContent = `${item.nome} - R$${item.preco.toFixed(2)}`;
+                listaCarrinho.appendChild(li);
+                total += item.preco;
+            });
+
+            totalElement.textContent = total.toFixed(2);
+        }
+
+        // Função para calcular o frete (simulação)
+        document.getElementById('calcular-frete').addEventListener('click', () => {
+            const cep = document.getElementById('cep').value;
+            if (cep) {
+                const freteSimulado = Math.random() * 30 + 10; // Simulação de frete entre R$10 e R$40
+                document.querySelector('.frete-info').textContent = `Frete: R$${freteSimulado.toFixed(2)}`;
+            } else {
+                alert('Por favor, digite um CEP válido.');
+            }
+        });
+        
+        // Script para mostrar/esconder as opções de pagamento no botão de pagamento único
+        document.querySelector('.botao-pagar').addEventListener('click', () => {
+            const opcoesPagamento = document.querySelector('.opcoes-pagamento');
+            opcoesPagamento.classList.toggle('mostrar');
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,14 @@
+{
+    "name": "loja-informatica",
+    "version": "1.0.0",
+    "description": "Loja de informática com integração ao MercadoPago",
+    "main": "app.js",
+    "scripts": {
+      "start": "node backend/app.js"
+    },
+    "dependencies": {
+      "express": "^4.17.1",
+      "mercadopago": "^1.5.10"
+    }
+  }
+  
