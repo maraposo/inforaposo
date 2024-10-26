@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!DOCTYPE html> 
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
@@ -6,7 +6,6 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>Loja Inforaposo</title>
     <link rel="stylesheet" href="styles.css">
-    <script src="https://sdk.mercadopago.com/js/v2"></script>
 </head>
 <body>
     <header>
@@ -33,6 +32,7 @@
     <main>
         <section class="departamentos">
             <h2>Departamentos</h2>
+
             <div class="grid-container">
                 <div class="categoria" data-nome="Processador" data-preco="250">
                     <img src="img/processador.jpg" alt="Processador">
@@ -44,23 +44,55 @@
                     <h3>Memória RAM</h3>
                     <button class="botao-adicionar">Adicionar ao Carrinho</button>
                 </div>
-                <div class="categoria" data-nome="Placas-mãe" data-preco="350">
+                <div class="categoria" data-nome="Placa-mãe" data-preco="350">
                     <img src="img/placa-mae.jpg" alt="Placa-mãe">
-                    <h3>Placas-mãe</h3>
+                    <h3>Placa-mãe</h3>
+                    <button class="botao-adicionar">Adicionar ao Carrinho</button>
+                </div> 
+                <div class="categoria" data-nome="Placa-video" data-preco="500">
+                    <img src="img/Placa-video.jpg" alt="Placa-video">
+                    <h3>Placa-video</h3>
                     <button class="botao-adicionar">Adicionar ao Carrinho</button>
                 </div>
+                <div class="categoria" data-nome="teclado-mouse" data-preco="100">
+                    <img src="img/teclado-mouse.jpg" alt="teclado-mouse">
+                    <h3>teclado-mouse</h3>
+                    <button class="botao-adicionar">Adicionar ao Carrinho</button>
+                </div>
+                <div class="categoria" data-nome="fonte" data-preco="150">
+                    <img src="img/fonte.jpg" alt="fonte">
+                    <h3>fonte</h3>
+                    <button class="botao-adicionar">Adicionar ao Carrinho</button>
+                </div>
+                <div class="categoria" data-nome="gabinete" data-preco="200">
+                    <img src="img/gabinete.jpg" alt="gabinete">
+                    <h3>gabinete</h3>
+                    <button class="botao-adicionar">Adicionar ao Carrinho</button>
+                </div>
+                <div class="categoria" data-nome="monitor" data-preco="700">
+                    <img src="img/monitor.jpg" alt="monitor">
+                    <h3>monitor</h3>
+                    <button class="botao-adicionar">Adicionar ao Carrinho</button>
+                </div>
+                <div class="categoria" data-nome="armazenamento" data-preco="700">
+                    <img src="img/armazenamento.jpg" alt="armazenamento">
+                    <h3>armazenamento</h3>
+                    <button class="botao-adicionar">Adicionar ao Carrinho</button>
+                </div>
+                <!-- Adicione mais categorias conforme necessário -->
             </div>
         </section>
 
-        <section class="pagamento">
-            <h2>Finalizar Compra</h2>
-            <button class="botao-pagar" id="botaoPagar">Pagar</button>
-            <div class="opcoes-pagamento">
-                <a href="#" id="boleto">Boleto</a>
-                <a href="#" id="pix">Pix</a>
-                <a href="#" id="cartoes">Cartões</a>
-                <a href="#" id="mercadoPago">MercadoPago</a>
-            </div>
+       <!-- Botão de pagamento único com opções -->
+       <section class="pagamento">
+        <h2>Finalizar Compra</h2>
+        <button class="botao-pagar" id="botaoPagar">Pagar com MercadoPago</button>
+        <div class="opcoes-pagamento">
+            <a href="#" id="boleto">Boleto</a>
+            <a href="#" id="pix">Pix</a>
+            <a href="#" id="cartoes">Cartões</a>
+            <a href="#" id="mercadoPago">MercadoPago</a>
+        </div>
             <div class="carrinho-info">
                 <h3>Itens no Carrinho:</h3>
                 <ul class="lista-carrinho"></ul>
@@ -85,7 +117,13 @@
         </div>
     </footer>
 
+    <!-- Script de funcionalidades e integração com o MercadoPago -->
+    <script src="https://sdk.mercadopago.com/js/v2"></script>
     <script>
+        const mp = new MercadoPago('APP_USR-67b0ac2e-fda1-4949-8979-61ca6a20ad30', {
+            locale: 'pt-BR' // Defina o idioma
+        });
+
         const carrinho = [];
         const totalElement = document.querySelector('.total');
         const listaCarrinho = document.querySelector('.lista-carrinho');
@@ -127,31 +165,17 @@
                 alert('Por favor, digite um CEP válido.');
             }
         });
-        
-        // Script para mostrar/esconder as opções de pagamento no botão de pagamento único
-        document.querySelector('.botao-pagar').addEventListener('click', () => {
-            const opcoesPagamento = document.querySelector('.opcoes-pagamento');
-            opcoesPagamento.classList.toggle('mostrar');
-        });
 
-        // Inicializa o MercadoPago com sua chave pública
-        const mp = new MercadoPago('APP_USR-67b0ac2e-fda1-4949-8979-61ca6a20ad30', { // SUBSTITUA 'SUA_PUBLIC_KEY' PELA SUA CHAVE PÚBLICA
-            locale: 'pt-BR' // Defina o idioma
-        });
-
-        // Criação da preferência
-        const preferenceId = '7992115221432535'; // ID da preferência fornecido
-
-        const checkout = mp.checkout({
+        // Configuração do botão de pagamento
+        mp.checkout({
             preference: {
-                id: preferenceId // Use o ID fornecido
+                id: '7992115221432535' // Substitua pelo ID da preferência
             },
             render: {
-                container: '.botao-pagar', // Classe do botão de pagamento
+                container: '.botao-pagar', // Container do botão de pagamento
                 label: 'Pagar com MercadoPago' // Texto do botão
             }
         });
-
     </script>
 </body>
 </html>
